@@ -9,10 +9,9 @@ sys.path.append('.')
 from mytool import mytool
 class myexception(Exception):pass
 def showversion():
-	print 'Version:1.0'
+	print '\033[31mVersion:1.0\033[0m'
 def showhelp():
-	print '''
-	-s or --selects To set selects (dot seperator to set more selects),e.g. '人民币账户黄金','人民币账户白银','人民币账户铂金','人民币账户钯金'
+	print '\033[31m%s\033[0m'%'''	-s or --selects To set selects (dot seperator to set more selects),e.g. '人民币账户黄金','人民币账户白银','人民币账户铂金','人民币账户钯金'
 	-w or --warnings To set selects's warnings value(double length as  selects),e.g. buy,sell,buy,sell
 	-v or --version To show version
 	-h or --help To show more help
@@ -42,7 +41,7 @@ if __name__=='__main__':
 	warnings=[]
 	mail=None
 	try:
-		opt,val=getopt.getopt(sys.argv[1:],'vh:s:w:',['version','help','warnings=','selects='])
+		opt,val=getopt.getopt(sys.argv[1:],'vhs:w:',['version','help','warnings=','selects='])
 		for o in opt:
 			if o[0] in ['-w','--warnings']:
 				warnings=map(lambda a:float(a),o[1].split(','))
@@ -53,21 +52,22 @@ if __name__=='__main__':
 			elif o[0] in ['-h','--help']:
 				showhelp()
 		if len(selects)*2!=len(warnings):
-			raise myexception('\033[31m Must be have right args counts\033[0m')
+			raise myexception('\033[31mMust be have right args counts\033[0m')
 		if not (checkselects(selects) and checkwarnings(warnings)):
-			raise myexception('\033[31m Must enter the right selects or warnings\033[0m')
+			raise myexception('\033[31mMust enter the right selects or warnings\033[0m')
 		
 	except getopt.GetoptError,e:
 		print str(e)
 	except myexception,e:
 		print str(e)
 	else:
-		tmp={}
-		for s in selects:
-			tmp[s]=tmp.get(s,{})
-			tmp[s]['buy']=warnings[selects.index(s)*2]
-			tmp[s]['sell']=warnings[selects.index(s)*2+1]
-		t=mytool(url,selects,tmp)
-		t.start()
+		if selects!=[] and warnings!=[]:
+			tmp={}
+			for s in selects:
+				tmp[s]=tmp.get(s,{})
+				tmp[s]['buy']=warnings[selects.index(s)*2]
+				tmp[s]['sell']=warnings[selects.index(s)*2+1]
+			t=mytool(url,selects,tmp)
+			t.start()
 		
 
