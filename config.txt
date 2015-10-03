@@ -1,0 +1,11 @@
+[mail]
+
+host:smtp.daum.net
+
+port:465
+
+user:daisongchen65@daum.net
+
+password:dane0605@
+
+to:daisongchen65@daum.net,1960772215@qq.com
