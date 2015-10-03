@@ -6,6 +6,6 @@ port:465
 
 user:daisongchen65@daum.net
 
-password:dane0605@
+password:
 
 to:daisongchen65@daum.net,1960772215@qq.com
